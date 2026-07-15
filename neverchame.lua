@@ -1,4 +1,4 @@
--- neverchame v19 - HASHED KEYS PROTECTION
+-- neverchame v20 - Chameleon Helper
 
 if getgenv then
     if getgenv().__NC_LOADED then return end
@@ -8,11 +8,11 @@ if getgenv then
     end)
 end
 
--- ⚡ GITHUB URL
+-- GITHUB URL
 local KEYS_URL = "https://raw.githubusercontent.com/FinikDev631/NeverChame/main/keys.json"
 local KEY_LIFETIME = 86400
 
--- 🔐 СЕКРЕТНАЯ СОЛЬ (должна совпадать с ботом!)
+-- Секретная соль (должна совпадать с ботом!)
 local HASH_SALT = "nc_2024_secret_neverchame_x9k2m"
 
 local HttpService = game:GetService("HttpService")
@@ -20,7 +20,7 @@ local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
 local LocalPlayer = Players.LocalPlayer
 
--- ============ SHA-256 РЕАЛИЗАЦИЯ ДЛЯ LUA ============
+-- ============ SHA-256 ============
 local sha256 = (function()
     local band, bor, bxor, bnot, rshift, lshift = bit32.band, bit32.bor, bit32.bxor, bit32.bnot, bit32.rshift, bit32.lshift
 
@@ -99,14 +99,13 @@ local sha256 = (function()
     end
 end)()
 
--- Хэшируем ключ (та же логика что в боте)
 local function hashKey(key)
     local combined = HASH_SALT .. key
     local fullHash = sha256(combined)
-    return string.sub(fullHash, 1, 16)  -- Первые 16 символов
+    return string.sub(fullHash, 1, 16)
 end
 
--- ============ СЕРВЕРНАЯ ПРОВЕРКА ============
+-- ============ ПРОВЕРКА КЛЮЧА ============
 local function fetchServerKeys()
     local url = KEYS_URL .. "?t=" .. tostring(os.time())
     local ok, response = pcall(function() return game:HttpGet(url) end)
@@ -122,7 +121,6 @@ local function validateKey(key)
     local keys = fetchServerKeys()
     if not keys then return false, "server_error" end
 
-    -- 🔐 Хэшируем введённый ключ и ищем в списке хэшей
     local userHash = hashKey(key)
     local activatedTime = keys[userHash]
 
@@ -173,7 +171,7 @@ local function showKeyPrompt(errorMsg)
     sub.Size = UDim2.new(1, 0, 0, 20)
     sub.Position = UDim2.new(0, 0, 0, 60)
     sub.BackgroundTransparency = 1
-    sub.Text = "🔒 SHA-256 encrypted"
+    sub.Text = "Enter your license key"
     sub.TextSize = 13
     sub.Font = Enum.Font.Gotham
     sub.TextColor3 = Color3.fromRGB(180, 180, 180)
@@ -231,7 +229,7 @@ local function showKeyPrompt(errorMsg)
     warn.Size = UDim2.new(1, -40, 0, 20)
     warn.Position = UDim2.new(0, 20, 0, 280)
     warn.BackgroundTransparency = 1
-    warn.Text = "🔐 Hash-protected — real keys never leaked"
+    warn.Text = "Free key every 24 hours"
     warn.TextSize = 10
     warn.Font = Enum.Font.GothamMedium
     warn.TextColor3 = Color3.fromRGB(150, 200, 255)
@@ -246,7 +244,7 @@ local function showKeyPrompt(errorMsg)
         local ok, timeOrErr = validateKey(key)
         if ok then
             status.TextColor3 = Color3.fromRGB(100, 255, 100)
-            status.Text = "✅ Verified! Loading..."
+            status.Text = "Loading..."
             result = key
             activationTime = timeOrErr
             task.wait(0.8)
@@ -256,11 +254,11 @@ local function showKeyPrompt(errorMsg)
             btn.Active = true
             status.TextColor3 = Color3.fromRGB(255, 100, 100)
             if timeOrErr == "expired" then
-                status.Text = "❌ Key expired! Get new one in bot"
+                status.Text = "Key expired! Get new one in bot"
             elseif timeOrErr == "server_error" then
-                status.Text = "⚠️ GitHub unavailable. Try again"
+                status.Text = "Server unavailable. Try again"
             else
-                status.Text = "❌ Invalid key or not activated in bot"
+                status.Text = "Invalid key"
             end
         end
     end)
@@ -629,7 +627,7 @@ local Logging = NeverLose:CreateLogger()
 local IndicatorSys = NeverLose:CreateIndicator()
 
 local window = NeverLose:CreateWindow({
-    Name = "neverchame", Content = "Chameleon Helper v19",
+    Name = "neverchame", Content = "Chameleon Helper v20",
     Size = NeverLose.Scales.Default, ConfigFolder = "NCConfigs",
     Enable3DRenderer = false, Keybind = "Insert"
 })
@@ -927,7 +925,7 @@ local KeySec = SetTab:AddSection({ Name = "LICENSE", Position = "left" })
 UISec:AddLabel("Key"):AddKeybind({ Default = "Insert", Callback = function(v) window.Keybind = v end })
 UISec:AddLabel("Size"):AddDropdown({ Default = "Default", Values = {"Small", "Default", "Large", "Mobile"}, Callback = function(v) pcall(function() window:SetSize(NeverLose.Scales[v]) end) end })
 KeySec:AddLabel("Key: " .. string.sub(savedKey, 1, 8) .. "***")
-KeySec:AddLabel("🔒 SHA-256 protected")
+KeySec:AddLabel("License active")
 
 local function fullUnload()
     for k, val in pairs(flags) do if type(val) == "boolean" then flags[k] = false end end
@@ -965,5 +963,5 @@ table.insert(conns, Players.PlayerAdded:Connect(function(p) if flags.esp then ap
 table.insert(conns, Players.PlayerRemoving:Connect(function(p) highlights[p] = nil revealHighlights[p] = nil espTexts[p] = nil end))
 
 pcall(function() loadConfig("default") end)
-Notification.new({ Title = "neverchame v19", Content = "🔐 Hash-protected. Press Insert.", Duration = 6 })
-Logging.new("check", "neverchame v19 loaded", 5)
+Notification.new({ Title = "neverchame v20", Content = "Press Insert to open menu.", Duration = 6 })
+Logging.new("check", "neverchame v20 loaded", 5)
