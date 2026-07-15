@@ -1,18 +1,15 @@
--- neverchame v13 SECURE - Chameleon Helper
--- Защищённая версия с закодированными ключами
+-- neverchame v14 - Chameleon Helper [SECURE + LIVE KEY TIMER]
 
 -- ============ АНТИ-ДЕКОМПИЛЯТОР ============
 if getgenv then
     if getgenv().__NC_LOADED then return end
     getgenv().__NC_LOADED = true
-    -- Ломаем декомпиляторы
     pcall(function()
         getgenv().decompile = function() return "-- Access denied" end
     end)
 end
 
 -- ============ ЗАКОДИРОВАННЫЕ КЛЮЧИ ============
--- Ключи закодированы через string.char (нельзя прочитать глазами)
 local _k = {
     string.char(78,67,45,55,75,50,77,45,57,80,88,52,45,81,56,84,78),
     string.char(78,67,45,51,70,54,74,45,87,49,82,66,45,53,76,89,72),
@@ -35,7 +32,6 @@ local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
 local LocalPlayer = Players.LocalPlayer
 
--- Функция проверки ключа с обфусцированной логикой
 local function _validate(input)
     if not input or type(input) ~= "string" then return false end
     for _, encoded in ipairs(_k) do
@@ -120,7 +116,7 @@ local function showKeyPrompt()
     info.Size = UDim2.new(1, -40, 0, 30)
     info.Position = UDim2.new(0, 20, 0, 85)
     info.BackgroundTransparency = 1
-    info.Text = "Get key: @neverchame_keys_bot in Telegram"
+    info.Text = "Get key: @neverchame_bot in Telegram"
     info.TextSize = 11
     info.Font = Enum.Font.Gotham
     info.TextColor3 = Color3.fromRGB(120, 180, 255)
@@ -548,7 +544,7 @@ local Logging = NeverLose:CreateLogger()
 local IndicatorSys = NeverLose:CreateIndicator()
 
 local window = NeverLose:CreateWindow({
-    Name = "neverchame", Content = "Chameleon Helper v13",
+    Name = "neverchame", Content = "Chameleon Helper v14",
     Size = NeverLose.Scales.Default, ConfigFolder = "NCConfigs",
     Enable3DRenderer = false, Keybind = "Insert"
 })
@@ -578,6 +574,48 @@ task.spawn(function()
             end
         end
     end)
+end)
+
+-- ============ ЖИВОЙ ТАЙМЕР В МЕНЮ (ЗАМЕНА "Never") ============
+task.spawn(function()
+    task.wait(1.5)
+    while true do
+        pcall(function()
+            local ui = CoreGui:FindFirstChild("Neverlose")
+            if not ui then task.wait(1) return end
+            local remaining = KEY_LIFETIME - (os.time() - activationTime)
+            local timeText = ""
+            if remaining <= 0 then
+                timeText = "EXPIRED"
+            else
+                local h = math.floor(remaining / 3600)
+                local m = math.floor((remaining % 3600) / 60)
+                local s = remaining % 60
+                if h > 0 then
+                    timeText = string.format("%dh %dm left", h, m)
+                elseif m > 0 then
+                    timeText = string.format("%dm %ds left", m, s)
+                else
+                    timeText = string.format("%ds left", s)
+                end
+            end
+            for _, obj in ipairs(ui:GetDescendants()) do
+                if obj:IsA("TextLabel") then
+                    if obj.Text == "Never" or string.find(obj.Text, "left") or obj.Text == "EXPIRED" then
+                        obj.Text = timeText
+                        if remaining < 600 then
+                            obj.TextColor3 = Color3.fromRGB(255, 80, 80)
+                        elseif remaining < 3600 then
+                            obj.TextColor3 = Color3.fromRGB(255, 200, 100)
+                        else
+                            obj.TextColor3 = Color3.fromRGB(150, 200, 255)
+                        end
+                    end
+                end
+            end
+        end)
+        task.wait(1)
+    end
 end)
 
 local frameCount, fps = 0, 0
@@ -854,5 +892,5 @@ table.insert(conns, Players.PlayerAdded:Connect(function(p) if flags.esp then ap
 table.insert(conns, Players.PlayerRemoving:Connect(function(p) highlights[p] = nil revealHighlights[p] = nil espTexts[p] = nil end))
 
 pcall(function() loadConfig("default") end)
-Notification.new({ Title = "neverchame v13", Content = "Key valid. Press Insert.", Duration = 6 })
-Logging.new("check", "neverchame v13 loaded", 5)
+Notification.new({ Title = "neverchame v14", Content = "Key valid. Press Insert.", Duration = 6 })
+Logging.new("check", "neverchame v14 loaded", 5)
