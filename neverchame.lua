@@ -1,4 +1,4 @@
--- neverchame v18 - GITHUB VERIFIED KEYS
+-- neverchame v19 - HASHED KEYS PROTECTION
 
 if getgenv then
     if getgenv().__NC_LOADED then return end
@@ -8,26 +8,110 @@ if getgenv then
     end)
 end
 
--- ⚡ GITHUB - ЧИТАЕМ ПУБЛИЧНО (без токена)
+-- ⚡ GITHUB URL
 local KEYS_URL = "https://raw.githubusercontent.com/FinikDev631/NeverChame/main/keys.json"
 local KEY_LIFETIME = 86400
+
+-- 🔐 СЕКРЕТНАЯ СОЛЬ (должна совпадать с ботом!)
+local HASH_SALT = "nc_2024_secret_neverchame_x9k2m"
 
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
 local LocalPlayer = Players.LocalPlayer
 
--- ============ СЕРВЕРНАЯ ПРОВЕРКА (GITHUB) ============
+-- ============ SHA-256 РЕАЛИЗАЦИЯ ДЛЯ LUA ============
+local sha256 = (function()
+    local band, bor, bxor, bnot, rshift, lshift = bit32.band, bit32.bor, bit32.bxor, bit32.bnot, bit32.rshift, bit32.lshift
+
+    local K = {
+        0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+        0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+        0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+        0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+        0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+        0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+        0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+        0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
+    }
+
+    local function rrotate(x, n)
+        return bor(rshift(x, n), lshift(x, 32 - n)) % 4294967296
+    end
+
+    local function preprocess(msg)
+        local len = #msg
+        local bit_len = len * 8
+        msg = msg .. string.char(0x80)
+        while (#msg % 64) ~= 56 do
+            msg = msg .. string.char(0)
+        end
+        for i = 7, 0, -1 do
+            msg = msg .. string.char(band(rshift(bit_len, i * 8), 0xFF))
+        end
+        return msg
+    end
+
+    return function(input)
+        local msg = preprocess(input)
+        local H = {0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19}
+
+        for chunkStart = 1, #msg, 64 do
+            local W = {}
+            for i = 0, 15 do
+                local j = chunkStart + i * 4
+                W[i + 1] = lshift(string.byte(msg, j), 24) + lshift(string.byte(msg, j + 1), 16)
+                    + lshift(string.byte(msg, j + 2), 8) + string.byte(msg, j + 3)
+            end
+            for i = 17, 64 do
+                local s0 = bxor(rrotate(W[i - 15], 7), rrotate(W[i - 15], 18), rshift(W[i - 15], 3))
+                local s1 = bxor(rrotate(W[i - 2], 17), rrotate(W[i - 2], 19), rshift(W[i - 2], 10))
+                W[i] = (W[i - 16] + s0 + W[i - 7] + s1) % 4294967296
+            end
+            local a, b, c, d, e, f, g, h = H[1], H[2], H[3], H[4], H[5], H[6], H[7], H[8]
+            for i = 1, 64 do
+                local S1 = bxor(rrotate(e, 6), rrotate(e, 11), rrotate(e, 25))
+                local ch = bxor(band(e, f), band(bnot(e) % 4294967296, g))
+                local temp1 = (h + S1 + ch + K[i] + W[i]) % 4294967296
+                local S0 = bxor(rrotate(a, 2), rrotate(a, 13), rrotate(a, 22))
+                local maj = bxor(band(a, b), band(a, c), band(b, c))
+                local temp2 = (S0 + maj) % 4294967296
+                h = g
+                g = f
+                f = e
+                e = (d + temp1) % 4294967296
+                d = c
+                c = b
+                b = a
+                a = (temp1 + temp2) % 4294967296
+            end
+            H[1] = (H[1] + a) % 4294967296
+            H[2] = (H[2] + b) % 4294967296
+            H[3] = (H[3] + c) % 4294967296
+            H[4] = (H[4] + d) % 4294967296
+            H[5] = (H[5] + e) % 4294967296
+            H[6] = (H[6] + f) % 4294967296
+            H[7] = (H[7] + g) % 4294967296
+            H[8] = (H[8] + h) % 4294967296
+        end
+
+        return string.format("%08x%08x%08x%08x%08x%08x%08x%08x", H[1], H[2], H[3], H[4], H[5], H[6], H[7], H[8])
+    end
+end)()
+
+-- Хэшируем ключ (та же логика что в боте)
+local function hashKey(key)
+    local combined = HASH_SALT .. key
+    local fullHash = sha256(combined)
+    return string.sub(fullHash, 1, 16)  -- Первые 16 символов
+end
+
+-- ============ СЕРВЕРНАЯ ПРОВЕРКА ============
 local function fetchServerKeys()
-    -- Добавляем случайный параметр чтобы обойти кэш
     local url = KEYS_URL .. "?t=" .. tostring(os.time())
-    local ok, response = pcall(function()
-        return game:HttpGet(url)
-    end)
+    local ok, response = pcall(function() return game:HttpGet(url) end)
     if not ok then return nil end
-    local ok2, data = pcall(function()
-        return HttpService:JSONDecode(response)
-    end)
+    local ok2, data = pcall(function() return HttpService:JSONDecode(response) end)
     if not ok2 or not data then return nil end
     return data.keys or {}
 end
@@ -37,7 +121,11 @@ local function validateKey(key)
     if #key < 10 or not string.find(key, "^NC%-") then return false, "invalid" end
     local keys = fetchServerKeys()
     if not keys then return false, "server_error" end
-    local activatedTime = keys[key]
+
+    -- 🔐 Хэшируем введённый ключ и ищем в списке хэшей
+    local userHash = hashKey(key)
+    local activatedTime = keys[userHash]
+
     if not activatedTime then return false, "invalid" end
     local elapsed = os.time() - activatedTime
     if elapsed >= KEY_LIFETIME then return false, "expired" end
@@ -85,7 +173,7 @@ local function showKeyPrompt(errorMsg)
     sub.Size = UDim2.new(1, 0, 0, 20)
     sub.Position = UDim2.new(0, 0, 0, 60)
     sub.BackgroundTransparency = 1
-    sub.Text = "🔒 GitHub verified"
+    sub.Text = "🔒 SHA-256 encrypted"
     sub.TextSize = 13
     sub.Font = Enum.Font.Gotham
     sub.TextColor3 = Color3.fromRGB(180, 180, 180)
@@ -143,7 +231,7 @@ local function showKeyPrompt(errorMsg)
     warn.Size = UDim2.new(1, -40, 0, 20)
     warn.Position = UDim2.new(0, 20, 0, 280)
     warn.BackgroundTransparency = 1
-    warn.Text = "🔐 Cannot bypass — verified on GitHub"
+    warn.Text = "🔐 Hash-protected — real keys never leaked"
     warn.TextSize = 10
     warn.Font = Enum.Font.GothamMedium
     warn.TextColor3 = Color3.fromRGB(150, 200, 255)
@@ -541,7 +629,7 @@ local Logging = NeverLose:CreateLogger()
 local IndicatorSys = NeverLose:CreateIndicator()
 
 local window = NeverLose:CreateWindow({
-    Name = "neverchame", Content = "Chameleon Helper v18",
+    Name = "neverchame", Content = "Chameleon Helper v19",
     Size = NeverLose.Scales.Default, ConfigFolder = "NCConfigs",
     Enable3DRenderer = false, Keybind = "Insert"
 })
@@ -839,7 +927,7 @@ local KeySec = SetTab:AddSection({ Name = "LICENSE", Position = "left" })
 UISec:AddLabel("Key"):AddKeybind({ Default = "Insert", Callback = function(v) window.Keybind = v end })
 UISec:AddLabel("Size"):AddDropdown({ Default = "Default", Values = {"Small", "Default", "Large", "Mobile"}, Callback = function(v) pcall(function() window:SetSize(NeverLose.Scales[v]) end) end })
 KeySec:AddLabel("Key: " .. string.sub(savedKey, 1, 8) .. "***")
-KeySec:AddLabel("🔒 GitHub verified license")
+KeySec:AddLabel("🔒 SHA-256 protected")
 
 local function fullUnload()
     for k, val in pairs(flags) do if type(val) == "boolean" then flags[k] = false end end
@@ -877,5 +965,5 @@ table.insert(conns, Players.PlayerAdded:Connect(function(p) if flags.esp then ap
 table.insert(conns, Players.PlayerRemoving:Connect(function(p) highlights[p] = nil revealHighlights[p] = nil espTexts[p] = nil end))
 
 pcall(function() loadConfig("default") end)
-Notification.new({ Title = "neverchame v18", Content = "GitHub verified. Press Insert.", Duration = 6 })
-Logging.new("check", "neverchame v18 loaded", 5)
+Notification.new({ Title = "neverchame v19", Content = "🔐 Hash-protected. Press Insert.", Duration = 6 })
+Logging.new("check", "neverchame v19 loaded", 5)
