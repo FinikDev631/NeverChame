@@ -1,6 +1,5 @@
--- neverchame v14 - Chameleon Helper [SECURE + LIVE KEY TIMER]
+-- neverchame v15 - Chameleon Helper [ONE-TIME KEYS + 110 KEYS]
 
--- ============ АНТИ-ДЕКОМПИЛЯТОР ============
 if getgenv then
     if getgenv().__NC_LOADED then return end
     getgenv().__NC_LOADED = true
@@ -9,8 +8,9 @@ if getgenv then
     end)
 end
 
--- ============ ЗАКОДИРОВАННЫЕ КЛЮЧИ ============
+-- ============ 110 ЗАКОДИРОВАННЫХ КЛЮЧЕЙ ============
 local _k = {
+    -- Оригинальные 10
     string.char(78,67,45,55,75,50,77,45,57,80,88,52,45,81,56,84,78),
     string.char(78,67,45,51,70,54,74,45,87,49,82,66,45,53,76,89,72),
     string.char(78,67,45,56,68,52,86,45,67,50,88,65,45,54,71,77,90),
@@ -21,11 +21,122 @@ local _k = {
     string.char(78,67,45,53,65,57,67,45,51,77,72,90,45,56,70,88,81),
     string.char(78,67,45,50,82,55,86,45,52,84,74,78,45,57,76,75,68),
     string.char(78,67,45,56,66,49,71,45,53,87,80,65,45,51,67,89,72),
+    -- Новые 100 ключей
+    string.char(78,67,45,65,49,66,50,45,67,51,68,52,45,69,53,70,54),
+    string.char(78,67,45,71,55,72,56,45,74,57,75,48,45,76,49,77,50),
+    string.char(78,67,45,78,51,80,52,45,81,53,82,54,45,83,55,84,56),
+    string.char(78,67,45,85,57,86,48,45,87,49,88,50,45,89,51,90,52),
+    string.char(78,67,45,50,66,53,68,45,55,72,50,75,45,52,80,57,84),
+    string.char(78,67,45,54,86,51,88,45,49,74,56,77,45,53,81,50,87),
+    string.char(78,67,45,55,90,52,65,45,50,66,57,68,45,54,72,51,75),
+    string.char(78,67,45,56,80,53,82,45,51,84,48,86,45,55,88,52,90),
+    string.char(78,67,45,57,66,54,70,45,52,74,49,76,45,56,78,53,80),
+    string.char(78,67,45,49,82,55,84,45,53,86,50,88,45,57,90,54,66),
+    string.char(78,67,45,50,68,56,70,45,54,72,51,74,45,48,76,55,78),
+    string.char(78,67,45,51,80,57,82,45,55,84,52,86,45,49,88,56,90),
+    string.char(78,67,45,52,66,48,68,45,56,70,53,72,45,50,74,57,76),
+    string.char(78,67,45,53,78,49,80,45,57,82,54,84,45,51,86,48,88),
+    string.char(78,67,45,54,90,50,66,45,48,68,55,70,45,52,72,49,74),
+    string.char(78,67,45,55,76,51,78,45,49,80,56,82,45,53,84,50,86),
+    string.char(78,67,45,56,88,52,90,45,50,66,57,68,45,54,70,51,72),
+    string.char(78,67,45,57,74,53,76,45,51,78,48,80,45,55,82,52,84),
+    string.char(78,67,45,48,86,54,88,45,52,90,49,66,45,56,68,53,70),
+    string.char(78,67,45,50,72,55,74,45,53,76,48,78,45,57,80,52,82),
+    string.char(78,67,45,66,53,72,55,45,74,50,76,57,45,80,52,82,54),
+    string.char(78,67,45,68,56,70,51,45,77,55,78,52,45,84,49,86,57),
+    string.char(78,67,45,71,50,75,54,45,80,51,82,55,45,88,52,90,49),
+    string.char(78,67,45,74,55,76,51,45,82,54,84,57,45,66,50,68,53),
+    string.char(78,67,45,77,52,80,56,45,84,49,86,50,45,68,54,70,55),
+    string.char(78,67,45,80,49,82,55,45,86,52,88,53,45,70,50,72,57),
+    string.char(78,67,45,82,53,84,50,45,88,54,90,49,45,72,55,74,52),
+    string.char(78,67,45,84,54,86,49,45,66,55,68,52,45,74,50,76,57),
+    string.char(78,67,45,86,50,88,55,45,68,49,70,52,45,76,53,78,54),
+    string.char(78,67,45,88,55,90,50,45,70,51,72,54,45,78,49,80,52),
+    string.char(78,67,45,90,49,66,54,45,72,52,74,55,45,80,50,82,51),
+    string.char(78,67,45,66,52,68,49,45,74,50,76,53,45,82,54,84,55),
+    string.char(78,67,45,68,55,70,52,45,76,49,78,54,45,84,50,86,51),
+    string.char(78,67,45,70,50,72,55,45,78,52,80,49,45,86,53,88,54),
+    string.char(78,67,45,72,54,74,51,45,80,53,82,50,45,88,49,90,52),
+    string.char(78,67,45,50,75,53,80,45,55,82,49,84,45,52,86,57,88),
+    string.char(78,67,45,51,77,54,82,45,56,84,50,86,45,53,88,48,90),
+    string.char(78,67,45,52,78,55,84,45,57,86,51,88,45,54,90,49,66),
+    string.char(78,67,45,53,80,56,86,45,48,88,52,90,45,55,66,50,68),
+    string.char(78,67,45,54,82,57,88,45,49,90,53,66,45,56,68,51,70),
+    string.char(78,67,45,55,84,48,90,45,50,66,54,68,45,57,70,52,72),
+    string.char(78,67,45,56,86,49,66,45,51,68,55,70,45,48,72,53,74),
+    string.char(78,67,45,57,88,50,68,45,52,70,56,72,45,49,74,54,76),
+    string.char(78,67,45,48,90,51,70,45,53,72,57,74,45,50,76,55,78),
+    string.char(78,67,45,49,66,52,72,45,54,74,48,76,45,51,78,56,80),
+    string.char(78,67,45,50,68,53,74,45,55,76,49,78,45,52,80,57,82),
+    string.char(78,67,45,51,70,54,76,45,56,78,50,80,45,53,82,48,84),
+    string.char(78,67,45,52,72,55,78,45,57,80,51,82,45,54,84,49,86),
+    string.char(78,67,45,53,74,56,80,45,48,82,52,84,45,55,86,50,88),
+    string.char(78,67,45,54,76,57,82,45,49,84,53,86,45,56,88,51,90),
+    string.char(78,67,45,55,78,48,84,45,50,86,54,88,45,57,90,52,66),
+    string.char(78,67,45,56,80,49,86,45,51,88,55,90,45,48,66,53,68),
+    string.char(78,67,45,57,82,50,88,45,52,90,56,66,45,49,68,54,70),
+    string.char(78,67,45,48,84,51,90,45,53,66,57,68,45,50,70,55,72),
+    string.char(78,67,45,49,86,52,66,45,54,68,48,70,45,51,72,56,74),
+    string.char(78,67,45,50,88,53,68,45,55,70,49,72,45,52,74,57,76),
+    string.char(78,67,45,51,90,54,70,45,56,72,50,74,45,53,76,48,78),
+    string.char(78,67,45,52,66,55,72,45,57,74,51,76,45,54,78,49,80),
+    string.char(78,67,45,66,54,68,57,45,74,52,76,49,45,82,56,84,51),
+    string.char(78,67,45,68,51,70,54,45,76,49,78,55,45,84,52,86,50),
+    string.char(78,67,45,70,55,72,50,45,78,54,80,51,45,86,49,88,56),
+    string.char(78,67,45,72,52,74,57,45,80,50,82,55,45,88,54,90,51),
+    string.char(78,67,45,74,49,76,54,45,82,55,84,52,45,66,51,68,56),
+    string.char(78,67,45,76,53,78,50,45,84,54,86,57,45,68,49,70,52),
+    string.char(78,67,45,78,56,80,51,45,86,50,88,49,45,70,53,72,54),
+    string.char(78,67,45,80,50,82,55,45,88,52,90,53,45,72,49,74,54),
+    string.char(78,67,45,82,54,84,49,45,66,55,68,52,45,74,50,76,53),
+    string.char(78,67,45,84,49,86,55,45,68,52,70,53,45,76,50,78,51),
+    string.char(78,67,45,86,52,88,50,45,70,51,72,54,45,78,49,80,55),
+    string.char(78,67,45,88,50,90,55,45,72,53,74,49,45,80,52,82,54),
+    string.char(78,67,45,90,54,66,49,45,74,55,76,50,45,82,51,84,53),
+    string.char(78,67,45,66,51,68,55,45,76,54,78,49,45,84,50,86,52),
+    string.char(78,67,45,68,50,70,54,45,78,49,80,52,45,86,53,88,51),
+    string.char(78,67,45,70,54,72,49,45,80,52,82,50,45,88,51,90,55),
+    string.char(78,67,45,72,49,74,52,45,82,50,84,53,45,90,54,66,55),
+    string.char(78,67,45,74,53,76,50,45,84,54,86,49,45,66,51,68,52),
+    string.char(78,67,45,76,52,78,55,45,86,51,88,50,45,68,54,70,49),
+    string.char(78,67,45,78,49,80,54,45,88,50,90,55,45,70,51,72,52),
+    string.char(78,67,45,80,53,82,50,45,90,49,66,52,45,72,55,74,54),
+    string.char(78,67,45,82,50,84,55,45,66,52,68,53,45,74,49,76,54),
+    string.char(78,67,45,84,55,86,49,45,68,54,70,50,45,76,51,78,52),
+    string.char(78,67,45,86,49,88,52,45,70,53,72,54,45,78,50,80,55),
+    string.char(78,67,45,88,54,90,55,45,72,50,74,49,45,80,53,82,52),
+    string.char(78,67,45,90,50,66,51,45,74,55,76,54,45,82,49,84,53),
+    string.char(78,67,45,50,77,53,80,45,55,82,49,86,45,52,88,57,66),
+    string.char(78,67,45,51,78,54,82,45,56,84,50,88,45,53,90,48,68),
+    string.char(78,67,45,52,80,55,84,45,57,86,51,90,45,54,66,49,70),
+    string.char(78,67,45,53,82,56,86,45,48,88,52,66,45,55,68,50,72),
+    string.char(78,67,45,54,84,57,88,45,49,90,53,68,45,56,70,51,74),
+    string.char(78,67,45,55,86,48,90,45,50,66,54,70,45,57,72,52,76),
+    string.char(78,67,45,56,88,49,66,45,51,68,55,72,45,48,74,53,78),
+    string.char(78,67,45,57,90,50,68,45,52,70,56,74,45,49,76,54,80),
+    string.char(78,67,45,48,66,51,70,45,53,72,57,76,45,50,78,55,82),
+    string.char(78,67,45,49,68,52,72,45,54,74,48,78,45,51,80,56,84),
+    string.char(78,67,45,50,70,53,74,45,55,76,49,80,45,52,82,57,86),
+    string.char(78,67,45,51,72,54,76,45,56,78,50,82,45,53,84,48,88),
+    string.char(78,67,45,52,74,55,78,45,57,80,51,84,45,54,86,49,90),
+    string.char(78,67,45,53,76,56,80,45,48,82,52,86,45,55,88,50,66),
+    string.char(78,67,45,54,78,57,82,45,49,84,53,88,45,56,90,51,68),
+    string.char(78,67,45,55,80,48,84,45,50,86,54,90,45,57,66,52,70),
+    string.char(78,67,45,56,82,49,86,45,51,88,55,66,45,48,68,53,72),
+    string.char(78,67,45,57,84,50,88,45,52,90,56,68,45,49,70,54,74),
+    string.char(78,67,45,48,86,51,90,45,53,66,57,70,45,50,72,55,76),
+    string.char(78,67,45,49,88,52,66,45,54,68,48,72,45,51,74,56,78),
+    string.char(78,67,45,50,90,53,68,45,55,70,49,74,45,52,76,57,80),
+    string.char(78,67,45,51,66,54,70,45,56,72,50,76,45,53,78,48,82),
+    string.char(78,67,45,52,68,55,72,45,57,74,51,78,45,54,80,49,84),
+    string.char(78,67,45,53,70,56,74,45,48,76,52,80,45,55,82,50,86),
+    string.char(78,67,45,54,72,57,76,45,49,78,53,82,45,56,84,51,88),
 }
 
 local KEY_LIFETIME = 86400
 local KEY_FOLDER = string.char(110,101,118,101,114,99,104,97,109,101,95,107,101,121,115)
 local KEY_FILE = string.char(97,99,116,105,118,97,116,105,111,110,46,106,115,111,110)
+local USED_FILE = string.char(117,115,101,100,95,107,101,121,115,46,106,115,111,110)
 
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
@@ -40,6 +151,43 @@ local function _validate(input)
     return false
 end
 
+-- ========== ОДНОРАЗОВАЯ СИСТЕМА ==========
+local function loadUsedKeys()
+    if not readfile or not isfile then return {} end
+    local path = KEY_FOLDER .. "/" .. USED_FILE
+    if not isfile(path) then return {} end
+    local ok, content = pcall(readfile, path)
+    if not ok then return {} end
+    local ok2, data = pcall(function() return HttpService:JSONDecode(content) end)
+    if not ok2 or type(data) ~= "table" then return {} end
+    return data
+end
+
+local function saveUsedKeys(usedKeys)
+    if not writefile then return end
+    pcall(function() if not isfolder(KEY_FOLDER) then makefolder(KEY_FOLDER) end end)
+    pcall(function()
+        writefile(KEY_FOLDER .. "/" .. USED_FILE, HttpService:JSONEncode(usedKeys))
+    end)
+end
+
+local function isKeyUsed(key)
+    local used = loadUsedKeys()
+    for _, k in ipairs(used) do
+        if k == key then return true end
+    end
+    return false
+end
+
+local function markKeyAsUsed(key)
+    local used = loadUsedKeys()
+    for _, k in ipairs(used) do
+        if k == key then return end
+    end
+    table.insert(used, key)
+    saveUsedKeys(used)
+end
+
 local function checkKey()
     if not readfile or not writefile then return "no_files" end
     local path = KEY_FOLDER .. "/" .. KEY_FILE
@@ -51,21 +199,30 @@ local function checkKey()
     if not ok2 or not data.key or not data.time then return "need_key" end
     if not _validate(data.key) then return "need_key" end
     local elapsed = os.time() - data.time
-    if elapsed >= KEY_LIFETIME then return "need_key" end
+    if elapsed >= KEY_LIFETIME then
+        -- Ключ истёк - помечаем как использованный НАВСЕГДА
+        markKeyAsUsed(data.key)
+        pcall(function() delfile(path) end)
+        return "expired"
+    end
     return "valid", data.key, data.time
 end
 
 local function activateKey(key)
-    if not _validate(key) then return false end
+    if not _validate(key) then return false, "invalid" end
+    -- Проверяем не использован ли ключ уже
+    if isKeyUsed(key) then return false, "used" end
     if writefile then
         pcall(function() if not isfolder(KEY_FOLDER) then makefolder(KEY_FOLDER) end end)
         local data = { key = key, time = os.time() }
         pcall(function() writefile(KEY_FOLDER .. "/" .. KEY_FILE, HttpService:JSONEncode(data)) end)
+        -- Сразу помечаем как использованный
+        markKeyAsUsed(key)
     end
     return true, os.time()
 end
 
-local function showKeyPrompt()
+local function showKeyPrompt(errorMsg)
     local old = CoreGui:FindFirstChild("ncKeyPrompt")
     if old then old:Destroy() end
     local gui = Instance.new("ScreenGui")
@@ -82,8 +239,8 @@ local function showKeyPrompt()
     bg.Parent = gui
 
     local frame = Instance.new("Frame")
-    frame.Size = UDim2.new(0, 400, 0, 280)
-    frame.Position = UDim2.new(0.5, -200, 0.5, -140)
+    frame.Size = UDim2.new(0, 400, 0, 300)
+    frame.Position = UDim2.new(0.5, -200, 0.5, -150)
     frame.BackgroundColor3 = Color3.fromRGB(20, 20, 28)
     frame.BorderSizePixel = 0
     frame.Parent = gui
@@ -106,7 +263,7 @@ local function showKeyPrompt()
     sub.Size = UDim2.new(1, 0, 0, 20)
     sub.Position = UDim2.new(0, 0, 0, 60)
     sub.BackgroundTransparency = 1
-    sub.Text = "Enter your license key"
+    sub.Text = "One-time key • 24 hours"
     sub.TextSize = 13
     sub.Font = Enum.Font.Gotham
     sub.TextColor3 = Color3.fromRGB(180, 180, 180)
@@ -150,14 +307,25 @@ local function showKeyPrompt()
     Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 6)
 
     local status = Instance.new("TextLabel")
-    status.Size = UDim2.new(1, 0, 0, 20)
-    status.Position = UDim2.new(0, 0, 0, 235)
+    status.Size = UDim2.new(1, -40, 0, 40)
+    status.Position = UDim2.new(0, 20, 0, 235)
     status.BackgroundTransparency = 1
-    status.Text = ""
+    status.Text = errorMsg or ""
     status.TextSize = 12
     status.Font = Enum.Font.Gotham
     status.TextColor3 = Color3.fromRGB(255, 100, 100)
+    status.TextWrapped = true
     status.Parent = frame
+
+    local warn = Instance.new("TextLabel")
+    warn.Size = UDim2.new(1, -40, 0, 20)
+    warn.Position = UDim2.new(0, 20, 0, 275)
+    warn.BackgroundTransparency = 1
+    warn.Text = "⚠ Key works only once!"
+    warn.TextSize = 10
+    warn.Font = Enum.Font.GothamMedium
+    warn.TextColor3 = Color3.fromRGB(255, 200, 100)
+    warn.Parent = frame
 
     local result, activationTime = nil, nil
     btn.MouseButton1Click:Connect(function()
@@ -173,7 +341,11 @@ local function showKeyPrompt()
             gui:Destroy()
         else
             status.TextColor3 = Color3.fromRGB(255, 100, 100)
-            status.Text = "Invalid key"
+            if timeOrErr == "used" then
+                status.Text = "❌ Key already used!\nGet a new key from @neverchame_bot"
+            else
+                status.Text = "❌ Invalid key"
+            end
         end
     end)
     while result == nil do task.wait(0.1) end
@@ -183,6 +355,8 @@ end
 local status, savedKey, activationTime = checkKey()
 if status == "need_key" or status == "no_files" then
     savedKey, activationTime = showKeyPrompt()
+elseif status == "expired" then
+    savedKey, activationTime = showKeyPrompt("Your key has expired!\nGet a new one from @neverchame_bot")
 end
 if not savedKey then return end
 
@@ -544,7 +718,7 @@ local Logging = NeverLose:CreateLogger()
 local IndicatorSys = NeverLose:CreateIndicator()
 
 local window = NeverLose:CreateWindow({
-    Name = "neverchame", Content = "Chameleon Helper v14",
+    Name = "neverchame", Content = "Chameleon Helper v15",
     Size = NeverLose.Scales.Default, ConfigFolder = "NCConfigs",
     Enable3DRenderer = false, Keybind = "Insert"
 })
@@ -576,44 +750,56 @@ task.spawn(function()
     end)
 end)
 
--- ============ ЖИВОЙ ТАЙМЕР В МЕНЮ (ЗАМЕНА "Never") ============
+-- ============ АГРЕССИВНАЯ ЗАМЕНА "Never" ============
 task.spawn(function()
     task.wait(1.5)
+    local targets = {}
+
+    local function scanUI()
+        local ui = CoreGui:FindFirstChild("Neverlose")
+        if not ui then return end
+        for _, obj in ipairs(ui:GetDescendants()) do
+            if (obj:IsA("TextLabel") or obj:IsA("TextButton")) then
+                if obj.Text == "Never" and not targets[obj] then
+                    targets[obj] = true
+                end
+            end
+        end
+    end
+
+    for i = 1, 5 do scanUI() task.wait(0.3) end
+
     while true do
-        pcall(function()
-            local ui = CoreGui:FindFirstChild("Neverlose")
-            if not ui then task.wait(1) return end
-            local remaining = KEY_LIFETIME - (os.time() - activationTime)
-            local timeText = ""
-            if remaining <= 0 then
-                timeText = "EXPIRED"
+        scanUI()
+        local remaining = KEY_LIFETIME - (os.time() - activationTime)
+        local timeText
+        if remaining <= 0 then
+            timeText = "EXPIRED"
+        else
+            local h = math.floor(remaining / 3600)
+            local m = math.floor((remaining % 3600) / 60)
+            local s = remaining % 60
+            if h > 0 then
+                timeText = string.format("%dh %dm left", h, m)
+            elseif m > 0 then
+                timeText = string.format("%dm %ds left", m, s)
             else
-                local h = math.floor(remaining / 3600)
-                local m = math.floor((remaining % 3600) / 60)
-                local s = remaining % 60
-                if h > 0 then
-                    timeText = string.format("%dh %dm left", h, m)
-                elseif m > 0 then
-                    timeText = string.format("%dm %ds left", m, s)
-                else
-                    timeText = string.format("%ds left", s)
-                end
+                timeText = string.format("%ds left", s)
             end
-            for _, obj in ipairs(ui:GetDescendants()) do
-                if obj:IsA("TextLabel") then
-                    if obj.Text == "Never" or string.find(obj.Text, "left") or obj.Text == "EXPIRED" then
-                        obj.Text = timeText
-                        if remaining < 600 then
-                            obj.TextColor3 = Color3.fromRGB(255, 80, 80)
-                        elseif remaining < 3600 then
-                            obj.TextColor3 = Color3.fromRGB(255, 200, 100)
-                        else
-                            obj.TextColor3 = Color3.fromRGB(150, 200, 255)
-                        end
-                    end
-                end
+        end
+
+        local color
+        if remaining < 600 then color = Color3.fromRGB(255, 80, 80)
+        elseif remaining < 3600 then color = Color3.fromRGB(255, 200, 100)
+        else color = Color3.fromRGB(150, 200, 255) end
+
+        for obj in pairs(targets) do
+            if obj and obj.Parent then
+                pcall(function() obj.Text = timeText obj.TextColor3 = color end)
+            else
+                targets[obj] = nil
             end
-        end)
+        end
         task.wait(1)
     end
 end)
@@ -672,6 +858,7 @@ task.spawn(function()
             timerLbl.Text = "EXPIRED"
             timerLbl.TextColor3 = Color3.fromRGB(255, 80, 80)
             pcall(function() delfile(KEY_FOLDER .. "/" .. KEY_FILE) end)
+            markKeyAsUsed(savedKey)
             break
         end
         local h = math.floor(remaining / 3600)
@@ -851,10 +1038,7 @@ local KeySec = SetTab:AddSection({ Name = "LICENSE", Position = "left" })
 UISec:AddLabel("Key"):AddKeybind({ Default = "Insert", Callback = function(v) window.Keybind = v end })
 UISec:AddLabel("Size"):AddDropdown({ Default = "Default", Values = {"Small", "Default", "Large", "Mobile"}, Callback = function(v) pcall(function() window:SetSize(NeverLose.Scales[v]) end) end })
 KeySec:AddLabel("Key: " .. string.sub(savedKey, 1, 8) .. "***")
-KeySec:AddButton({ Icon = "arrow-right-from-bracket", Name = "Logout", Callback = function()
-    pcall(function() delfile(KEY_FOLDER .. "/" .. KEY_FILE) end)
-    Notification.new({ Title = "Logged out", Content = "Rejoin to enter new key", Duration = 5 })
-end })
+KeySec:AddLabel("⚠ One-time key - won't work again")
 
 local function fullUnload()
     for k, val in pairs(flags) do if type(val) == "boolean" then flags[k] = false end end
@@ -892,5 +1076,5 @@ table.insert(conns, Players.PlayerAdded:Connect(function(p) if flags.esp then ap
 table.insert(conns, Players.PlayerRemoving:Connect(function(p) highlights[p] = nil revealHighlights[p] = nil espTexts[p] = nil end))
 
 pcall(function() loadConfig("default") end)
-Notification.new({ Title = "neverchame v14", Content = "Key valid. Press Insert.", Duration = 6 })
-Logging.new("check", "neverchame v14 loaded", 5)
+Notification.new({ Title = "neverchame v15", Content = "One-time key activated. Press Insert.", Duration = 6 })
+Logging.new("check", "neverchame v15 loaded", 5)
